@@ -30,6 +30,15 @@ Default region name [None]: us-west-2
 Default output format [None]: ENTER
 ```
 
+### Clone this repo to a local folder
+
+```
+git clone https://github.com/4ARMED/terraform-burp-collaborator.git
+cd terraform-burp-collaborator
+```
+
+It is assumed that everything else in this doc will be performed with the current working directory in this folder.
+
 ### Generate an SSH key pair
 
 We're going to assume you don't have a keypair already in AWS so we'll generate one now and upload it to AWS. You can skip this step if you already have one, just update [terraform.tfvars](terraform.tfvars) to use the right _key_pair_name_ and place the public key file in this directory.

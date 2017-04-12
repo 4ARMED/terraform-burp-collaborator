@@ -104,9 +104,9 @@ burp_zone = "collaborator" # This will result in collaborator.4armed.net
 # Restrict this to places you will SSH from. The whole Internet is not all so friendly.
 permitted_ssh_cidr_block = "0.0.0.0/0"
 
-# This is an important one. If you bought/registered your domain with AWS (or transferred it in) put true.
-# If you specify false we will create a new Route53 hosted zone. If true we assume the nameservers are already managed by AWS.
-domain_registered_with_aws = false
+# This is an important one. If you bought/registered your domain with AWS (or transferred it in) leave as false.
+# If you specify true we will create a new Route53 hosted zone. If false we assume the nameservers are already managed by AWS.
+domain_registered_with_other = false
 ```
 
 ### Run Terraform

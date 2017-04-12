@@ -36,7 +36,7 @@ variable "permitted_ssh_cidr_block" {
   default = "0.0.0.0/0"
 }
 
-variable "domain_registered_with_aws" {
-  description = "Is the domain is registered with AWS set this to true as we don't need to create the hosted zone"
+variable "domain_registered_with_other" {
+  description = "Is the domain is registered with someone other than AWS set this to true as we will need to create the hosted zone"
   default = "false"
 }

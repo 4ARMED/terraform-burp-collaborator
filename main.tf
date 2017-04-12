@@ -137,7 +137,7 @@ data "aws_route53_zone" "registered" {
 
 resource "aws_route53_record" "a" {
   zone_id = "${data.aws_route53_zone.registered.zone_id}"
-  name    = "${var.burp_zone}.${data.aws_route53_zone.registered.name}"
+  name    = "${var.burp_zone}.${var.zone}"
   type    = "A"
   ttl     = "5"
   records = ["${aws_instance.collaborator.public_ip}"]
@@ -145,8 +145,8 @@ resource "aws_route53_record" "a" {
 
 resource "aws_route53_record" "ns" {
   zone_id = "${data.aws_route53_zone.registered.zone_id}"
-  name    = "${var.burp_zone}.${data.aws_route53_zone.registered.name}"
+  name    = "${var.burp_zone}.${var.zone}"
   type    = "NS"
   ttl     = "5"
-  records = ["${var.burp_zone}.${data.aws_route53_zone.registered.name}."]
+  records = ["${var.burp_zone}.${var.zone}."]
 }

@@ -124,10 +124,6 @@ With these set, now you can run the nameserver update script for Namecheap:
 ```
 $ ./set_route53_ns.rb 4armed.net
 [*] You are about to update 4armed.net to use DNS servers ns-1276.awsdns-31.org,ns-1729.awsdns-24.co.uk,ns-212.awsdns-26.com,ns-828.awsdns-39.net
-[*] Are you sure you want to do this? (y/N):
-[!] Aborting update. Specify y next time if you want to run this update.
-4a-mw:burp-collab2$ ./set_route53_ns.rb 4armed.net
-[*] You are about to update 4armed.net to use DNS servers ns-1276.awsdns-31.org,ns-1729.awsdns-24.co.uk,ns-212.awsdns-26.com,ns-828.awsdns-39.net
 [*] Are you sure you want to do this? (y/N): y
 [{:domain=>"4armed.net", :updated=>"true"}]
 ```

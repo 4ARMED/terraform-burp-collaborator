@@ -162,7 +162,22 @@ Fire up Burp Suite Professional and go to _Project options > Misc > Burp Collabo
 
 In _Server location_ enter the hostname of your server. Hint, this will be the value of `burp_zone` prepended to `zone` from [terraform.tfvars](terraform.tfvars). In our example `collaborator.4armed.net`. You will also need to tick the box for _Poll over unencrypted HTTP_ at the moment as we have used a self-signed certificate.
 
-If you would like to purchase a proper wildcard TLS certificate for use with this server go see the Ansible Playbook documentation for how to do this. (If the doc isn't there it's because I haven't managed to write it yet but if you read the playbook you may be able to work it out - it's to do with tags).
+### Using a "proper" TLS certificate
+
+If you would like to purchase a proper wildcard TLS certificate for use with this server you need to generate a more appropriate CSR (the default values are fairly generic). There is an Ansible playbook included in this folder to help you.
+
+Once you have the CSR you can go and purchase a Wildcard TLS certificate with it and then upload it to your Burp server.
+
+Here are the steps.
+
+1. Edit [owntls.yml](owntls.yml) and set the different variables according to what you want in your certificate
+2. Delete the generated CSR: `rm burp.csr`
+3. `ansible-playbook -i inventory owntls.yml --tags tls`
+4. Use the contents of the newly generated _burp.csr_ file to purchase your certificate.
+5. Copy your new certificate to _burp.crt_
+6. Copy any intermediate CA cert bundle to _intermediate.crt_
+7. `ansible-playbook -i inventory playbook.yml --tags setup,restart`
+
 
 ## Destroying
 

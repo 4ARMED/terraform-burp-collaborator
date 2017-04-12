@@ -128,7 +128,7 @@ resource "aws_security_group" "collaborator_sg" {
 
 resource "aws_route53_zone" "create" {
   name = "${var.zone}"
-  count = "${var.domain_registered_with_aws}"
+  count = "${var.domain_registered_with_other}"
 }
 
 data "aws_route53_zone" "registered" {

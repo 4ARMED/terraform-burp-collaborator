@@ -59,7 +59,7 @@ In this example I've used the latest version at the time of writing. Given the r
 
 Edit the file [terraform.tfvars]
 
-`
+```
 # Use whatever region you prefer
 region = "eu-west-2"
 # Here we are using a different AWS profile from default, you don't have to but this is how if you need to.
@@ -82,7 +82,7 @@ permitted_ssh_cidr_block = "0.0.0.0/0"
 # This is an important one. If you bought/registered your domain with AWS (or transferred it in) put true.
 # If you specify false we will create a new Route53 hosted zone. If true we assume the nameservers are already managed by AWS.
 domain_registered_with_aws = false
-`
+```
 
 ### Run Terraform
 
@@ -120,7 +120,8 @@ export NAMECHEAP_API_KEY="_your_namecheap_api_key_"
 ```
 
 With these set, now you can run the nameserver update script for Namecheap:
-`
+
+```
 $ ./set_route53_ns.rb 4armed.net
 [*] You are about to update 4armed.net to use DNS servers ns-1276.awsdns-31.org,ns-1729.awsdns-24.co.uk,ns-212.awsdns-26.com,ns-828.awsdns-39.net
 [*] Are you sure you want to do this? (y/N):
@@ -129,7 +130,7 @@ $ ./set_route53_ns.rb 4armed.net
 [*] You are about to update 4armed.net to use DNS servers ns-1276.awsdns-31.org,ns-1729.awsdns-24.co.uk,ns-212.awsdns-26.com,ns-828.awsdns-39.net
 [*] Are you sure you want to do this? (y/N): y
 [{:domain=>"4armed.net", :updated=>"true"}]
-`
+```
 
 ## Testing
 

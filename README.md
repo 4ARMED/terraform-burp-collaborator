@@ -32,7 +32,7 @@ Default output format [None]: ENTER
 
 ### Generate an SSH key pair
 
-We're going to assume you don't have a keypair already in AWS so we'll generate one now and upload it to AWS. You can skip this step if you already have one, just update `terraform.tfvars` to use the right _key_pair_name_ and place the public key file in this directory.
+We're going to assume you don't have a keypair already in AWS so we'll generate one now and upload it to AWS. You can skip this step if you already have one, just update [terraform.tfvars](terraform.tfvars) to use the right _key_pair_name_ and place the public key file in this directory.
 
 Feel free to use a different comment or algorithm and it's best to set a passphrase on the key (obvs).
 
@@ -57,28 +57,37 @@ In this example I've used the latest version at the time of writing. Given the r
 
 ### Configure Terraform variables
 
-Edit the file [terraform.tfvars]
+Edit the file [terraform.tfvars](terraform.tfvars).
 
 ```
 # Use whatever region you prefer
 region = "eu-west-2"
+
 # Here we are using a different AWS profile from default, you don't have to but this is how if you need to.
 profile = "research"
+
 # Adjust according to your region and AZ preference
 availability_zone = "eu-west-2a"
+
 # This is the smallest (read cheapest) instance type available. Works ok with this.
 instance_type = "t2.nano"
+
 # Make sure the name of your keypair matches the filename minus the .pub suffix.
 key_name = "mykeypair"
+
 # You can call this what you like
 server_name = "burp-collaborator"
+
 # Don't use this one. It's ours.
 zone = "4armed.net"
+
 # This is a pretty sensible default but again, change it if you like. The only downside is it's long which may
 # cause problems if you only have limited injection space.
 burp_zone = "collaborator" # This will result in collaborator.4armed.net
+
 # Restrict this to places you will SSH from. The whole Internet is not all so friendly.
 permitted_ssh_cidr_block = "0.0.0.0/0"
+
 # This is an important one. If you bought/registered your domain with AWS (or transferred it in) put true.
 # If you specify false we will create a new Route53 hosted zone. If true we assume the nameservers are already managed by AWS.
 domain_registered_with_aws = false
@@ -134,6 +143,6 @@ If everything went ok you should be able to plug the hostname of your new privat
 
 Fire up Burp Suite Professional and go to _Project options > Misc > Burp Collaborator Server_ and check the box for _Use a private Collaborator server_.
 
-In _Server location_ enter the hostname of your server. Hint, this will be the value of `burp_zone` prepended to `zone` from [terraform.tfvars]. In our example `collaborator.4armed.net`. You will also need to tick the box for _Poll over unencrypted HTTP_ at the moment as we have used a self-signed certificate.
+In _Server location_ enter the hostname of your server. Hint, this will be the value of `burp_zone` prepended to `zone` from [terraform.tfvars](terraform.tfvars). In our example `collaborator.4armed.net`. You will also need to tick the box for _Poll over unencrypted HTTP_ at the moment as we have used a self-signed certificate.
 
 If you would like to purchase a proper wildcard TLS certificate for use with this server go see the Ansible Playbook documentation for how to do this. (If the doc isn't there it's because I haven't managed to write it yet but if you read the playbook you may be able to work it out - it's to do with tags).

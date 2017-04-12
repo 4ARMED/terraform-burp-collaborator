@@ -8,7 +8,7 @@ Some basic awareness of the AWS API and perhaps a little Terraform is assumed bu
 
 ## *** WARNING ***
 
-Just in case you've been living in a cage, everything in this README will cost you money on AWS. Even the free tier won't save you as it costs $0.50 per month for a hosted zone.
+Just in case you've been living in a cave, everything in this README will cost you money on AWS. Even the free tier won't save you as it costs $0.50 per month for a hosted zone.
 
 4ARMED are not in any way liable for your infrastructure costs. You're big boys and girls now, don't just run things without understanding what you're doing. :-)
 

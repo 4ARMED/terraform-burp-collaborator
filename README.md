@@ -6,6 +6,13 @@ This is a [Terraform](https://terraform.io/) configuration to build a [Burp Priv
 
 Some basic awareness of the AWS API and perhaps a little Terraform is assumed but if you're playing with Burp Collaborator you are hopefully technical enough to muddle through if not. Ping us questions if you get stuck [@4ARMED](https://twitter.com/4armed).
 
+## *** WARNING ***
+
+Just in case you've been living in a cage, everything in this README will cost you money on AWS. Even the free tier won't save you as it costs $0.50 per month for a hosted zone.
+
+4ARMED are not in any way liable for your infrastructure costs. You're big boys and girls now, don't just run things without understanding what you're doing. :-)
+
+
 ## Steps
 
 ### Set up AWS API user
@@ -155,3 +162,9 @@ Fire up Burp Suite Professional and go to _Project options > Misc > Burp Collabo
 In _Server location_ enter the hostname of your server. Hint, this will be the value of `burp_zone` prepended to `zone` from [terraform.tfvars](terraform.tfvars). In our example `collaborator.4armed.net`. You will also need to tick the box for _Poll over unencrypted HTTP_ at the moment as we have used a self-signed certificate.
 
 If you would like to purchase a proper wildcard TLS certificate for use with this server go see the Ansible Playbook documentation for how to do this. (If the doc isn't there it's because I haven't managed to write it yet but if you read the playbook you may be able to work it out - it's to do with tags).
+
+## Destroying
+
+When you've had your fun, if you want to kill the whole thing just run:
+
+`terraform destroy`

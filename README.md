@@ -91,7 +91,8 @@ instance_type = "t2.nano"
 # Make sure the name of your keypair matches the filename minus the .pub suffix.
 key_name = "mykeypair"
 
-# You can call this what you like
+# You can call this what you like, it's only used to set the hostname
+# on the Linux box
 server_name = "burp-collaborator"
 
 # Don't use this one. It's ours.

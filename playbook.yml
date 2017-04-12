@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: False
+  pre_tasks:
+    - name: Burp | Install Python 2
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+    - name: Burp | Set hostname
+      hostname:
+        name: "{{ server_hostname }}"
+
+    - name: Burp | Update /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '^127\.0\.0\.1'
+        line: "127.0.0.1 localhost {{ server_hostname }}"
+        owner: root
+        group: root
+        mode: 0644
+
+  roles:
+    - { role: 4ARMED.burp-collaborator }

@@ -1,8 +1,8 @@
-# Burpsuite Professional Private Collaborator Server using Terraform
+# Burpsuite Professional Private Collaborator Server using Terraform and Ansible
 
 ## Introduction
 
-This is a [Terraform](https://terraform.io/) configuration to build a [Burp Private Collaborator Server](https://portswigger.net/burp/help/collaborator_deploying.html) on an [Amazon Web Services EC2 Instance](https://aws.amazon.com/). It uses Terraform to create the instance and then uses our Ansible Burp Collaborator Server role from Ansible Galaxy to provision the Burp service.
+This is a [Terraform](https://terraform.io/) configuration to build a [Burp Private Collaborator Server](https://portswigger.net/burp/help/collaborator_deploying.html) on an [Amazon Web Services EC2 Instance](https://aws.amazon.com/). It uses Terraform to create the instance and then uses our [Ansible Burp Collaborator Server role](https://galaxy.ansible.com/4ARMED/burp-collaborator/) from Ansible Galaxy to provision the Burp service.
 
 Some basic awareness of the AWS API and perhaps a little Terraform is assumed but if you're playing with Burp Collaborator you are hopefully technical enough to muddle through if not. Ping us questions if you get stuck [@4ARMED](https://twitter.com/4armed).
 

@@ -125,23 +125,3 @@ resource "aws_security_group" "collaborator_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-data "aws_route53_zone" "burp" {
-  name = "${var.zone}"
-}
-
-resource "aws_route53_record" "a" {
-  zone_id = "${data.aws_route53_zone.burp.zone_id}"
-  name    = "${var.burp_zone}.${var.zone}"
-  type    = "A"
-  ttl     = "5"
-  records = ["${aws_instance.collaborator.public_ip}"]
-}
-
-resource "aws_route53_record" "ns" {
-  zone_id = "${data.aws_route53_zone.burp.zone_id}"
-  name    = "${var.burp_zone}.${var.zone}"
-  type    = "NS"
-  ttl     = "5"
-  records = ["${var.burp_zone}.${var.zone}."]
-}

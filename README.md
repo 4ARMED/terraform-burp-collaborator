@@ -6,12 +6,15 @@ This is a [Terraform](https://terraform.io/) configuration to build a [Burp Priv
 
 Some basic awareness of the AWS API and perhaps a little Terraform is assumed but if you're playing with Burp Collaborator you are hopefully technical enough to muddle through if not. Ping us questions if you get stuck [@4ARMED](https://twitter.com/4armed).
 
+This configuration assumes you have registered your domain on the AWS Route53 Registrar. There's a very good reason why this is simpler, we don't have to mess about with working out NS servers for the hosted zone and waiting for NS updates to propagate. If we keep it all within the AWS family it's quicker and easier. It's almost like they've thought of this. ;-)
+
+If you want to use an existing domain registered with another provider it is perfectly possible and there are instructions at the end on how to tweak this accordingly.
+
 ## *** WARNING ***
 
 Just in case you've been living in a cave, everything in this README will cost you money on AWS. Even the free tier won't save you as it costs $0.50 per month for a hosted zone.
 
-4ARMED are not in any way liable for your infrastructure costs. You're big boys and girls now, don't just run things without understanding what you're doing. :-)
-
+4ARMED are not in any way liable for your infrastructure costs. You should know by now not to just run things without understanding what you're doing. :-)
 
 ## Steps
 
@@ -52,8 +55,10 @@ We're going to assume you don't have a keypair already in AWS so we'll generate 
 
 Feel free to use a different comment or algorithm and it's best to set a passphrase on the key (obvs).
 
+`ssh-keygen -b 2048 -t rsa -C private_burp@aws -f mykeypair`
+
+Which will produce output like:
 ```
-$ ssh-keygen -b 2048 -t rsa -C private_burp@aws -f mykeypair
 Generating public/private rsa key pair.
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
@@ -104,10 +109,6 @@ burp_zone = "collaborator" # This will result in collaborator.4armed.net
 
 # Restrict this to places you will SSH from. The whole Internet is not all so friendly.
 permitted_ssh_cidr_block = "0.0.0.0/0"
-
-# This is an important one. If you bought/registered your domain with AWS (or transferred it in) leave as false.
-# If you specify true we will create a new Route53 hosted zone. If false we assume the nameservers are already managed by AWS.
-domain_registered_with_other = false
 ```
 
 ### Run Terraform
@@ -120,38 +121,34 @@ Assuming you don't get any horrible errors you're ready to go.
 
 ![Image of yes kid](http://s2.quickmeme.com/img/ca/caeca14caf425c6de80bd94f29f63f0a1c5197fecabd50b1b1d916a79d9b8685.jpg)
 
-`$ terraform apply`
+`terraform apply`
 
 Now sit back and behold the awesomeness of infrastructure as code.
 
-When it's all built there should only be one task left to do.
+The following operations will be performed:
 
-### Update your register name servers
+* Create AWS security group permitting all Burp Collaborator traffic plus SSH to your _permitted_ssh_cidr_block_ CIDR.
+* Create EC2 instance using Ubuntu Xenial (16.04) image for your chosen region in your default VPC.
+* Create an A record for your chosen hostname in your AWS hosted zone pointing to the IP address of new EC2 instance
+* Create an NS record for your chosen hostname pointing to the A record just created.
+* Run the 4ARMED.burp-collaborator Ansible playbook on the EC2 instance to install and configure Burp Collaborator.
 
-We need to tell our registrar to use Amazon Web Services' name servers for our domain (assuming you didn't register the domain with AWS). The NS records you need can be viewed from the output of:
+### Non-AWS registered domain
 
-`terraform output name_servers`
+If you want to use this Terraform config but are using a domain registered somewhere other than AWS (and not transferred in) you can use a slightly different version of this Terraform plan. You will also need to manually update the DNS at your register to point an A record to your new EC2 instance and an NS record for the zone too.
 
-#### Bonus for Namecheap customers
-
-If you are using Namecheap as your registrar then you can use our handy Ruby script to update the NS records automatically via their API. Bear in mind you will need API access to Namecheap which is not enabled by default. Read [this doc](https://www.namecheap.com/support/api/intro.aspx) to tell you how to enable it.
-
-Assuming you have done that, you will have an API username, a regular username (that you use on the website, usually the same as the API one) and an API key. Use those values to set the following environment variables on your local machine as follows.
-
-```
-export NAMECHEAP_MYIP=$(curl -s http://ip.4armed.com)
-export NAMECHEAP_API_USERNAME="_your_namecheap_api_username_"
-export NAMECHEAP_USERNAME="_your_namecheap_username_"
-export NAMECHEAP_API_KEY="_your_namecheap_api_key_"
-```
-
-With these set, now you can run the nameserver update script for Namecheap:
+There is a different version of [main.tf](main.tf) that does not include the route53 section at [main.tf.nonawsdomain](main.tf.nonawsdomain). To use this simply take a backup of the `main.tf` file and then copy this nonawsdomain version over it.
 
 ```
-$ ./set_route53_ns.rb 4armed.net
-[*] You are about to update 4armed.net to use DNS servers ns-1276.awsdns-31.org,ns-1729.awsdns-24.co.uk,ns-212.awsdns-26.com,ns-828.awsdns-39.net
-[*] Are you sure you want to do this? (y/N): y
-[{:domain=>"4armed.net", :updated=>"true"}]
+cp main.tf{,.aws}
+cp main.tf{.nonawsdomain,}
+```
+
+Now run the `plan` and `apply` steps as above. It will output the public IP address that you will need for your dns updates but just in case you miss it somehow you can run anytime:
+
+```
+terraform output public_ip
+35.176.22.202
 ```
 
 ## Testing

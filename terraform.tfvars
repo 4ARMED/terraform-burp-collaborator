@@ -7,4 +7,3 @@ server_name = "burp-collaborator" # used to set the hostname on the linux box
 zone = "doesnotexist.foo"
 burp_zone = "collaborator" # This will result in collaborator.doesnotexist.foo
 permitted_ssh_cidr_block = "0.0.0.0/0" # It is recommend this is changed to your IP to prevent noise from SSH scanners
-domain_registered_with_other = false

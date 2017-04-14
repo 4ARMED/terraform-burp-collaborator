@@ -148,7 +148,6 @@ Now run the `plan` and `apply` steps as above. It will output the public IP addr
 
 ```
 terraform output public_ip
-35.176.22.202
 ```
 
 ## Testing

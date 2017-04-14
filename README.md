@@ -44,7 +44,7 @@ Default output format [None]: ENTER
 
 If you don't have Ansible installed, you will need to do so. I recommend the devel version, it's very stable. If you choose to go main make sure you have at least version 2.2.
 
-`/usr/bin/sudo pip install git+git://github.com/ansible/ansible.git@devel`
+`pip install git+git://github.com/ansible/ansible.git@devel`
 
 ### Clone this repo to a local folder
 

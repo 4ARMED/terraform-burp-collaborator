@@ -1,6 +1,6 @@
 output "name_servers" {
   description = "The AWS DNS servers to be used to update the zone with your registar."
-  value = "${data.aws_route53_zone.registered.name_servers}"
+  value = "${data.aws_route53_zone.burp.name_servers}"
 }
 
 output "private_ip" {
